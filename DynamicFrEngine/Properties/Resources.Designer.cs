@@ -61,6 +61,15 @@ namespace FrEngineLoader.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exception occured on COM type &apos;{0}&apos; when calling &apos;{1}&apos;..
+        /// </summary>
+        internal static string EXC_COM {
+            get {
+                return ResourceManager.GetString("EXC_COM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot create &apos;{0}&apos; instance. Please make sure that &apos;{1}&apos; is registed. Use command: regsvr32 /n /i:&quot;&lt;path to FREngine.tlb folder&gt;&quot; &quot;&lt;path to {1} file&gt;&quot; to register..
         /// </summary>
         internal static string EXC_COM_SERVER_REG {
@@ -111,6 +120,15 @@ namespace FrEngineLoader.Properties {
         internal static string EXC_FRE_DLL_FUNC_SEARCH {
             get {
                 return ResourceManager.GetString("EXC_FRE_DLL_FUNC_SEARCH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please make sure that &apos;{0}&apos; is registed. Use command: regsvr32 /n /i:&quot;&lt;path to FREngine.tlb folder&gt;&quot; &quot;&lt;path to {0} file&gt;&quot; to register..
+        /// </summary>
+        internal static string EXC_FRE_DLL_NOT_REG {
+            get {
+                return ResourceManager.GetString("EXC_FRE_DLL_NOT_REG", resourceCulture);
             }
         }
         

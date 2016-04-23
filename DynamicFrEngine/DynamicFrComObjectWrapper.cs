@@ -26,7 +26,10 @@ namespace FrEngineLoader
         }
 
         // Provide original COM object for debugging purposes.
-        public object WrappedObject { get { return ComObject; } }
+        public object WrappedObject
+        {
+            get { return ComObject; }
+        }
 
         // Dispose pattern implementation for a base class.
         public void Dispose()
@@ -52,12 +55,12 @@ namespace FrEngineLoader
             if (ComObject == null) return;
 
             if (FrEngineUtils.FrEngineClosableInterfaces.Any(
-                    closableInterface => closableInterface == NativeComObjectTypeName))
+                closableInterface => closableInterface == NativeComObjectTypeName))
                 ComObjectType.InvokeMember(FrEngineUtils.CloseMethodName, BindingFlags.InvokeMethod, Type.DefaultBinder,
                     ComObject, null);
 
             if (FrEngineUtils.FrEngineFlushableInterfaces.Any(
-                    flushableInterface => flushableInterface == NativeComObjectTypeName))
+                flushableInterface => flushableInterface == NativeComObjectTypeName))
                 ComObjectType.InvokeMember(FrEngineUtils.FlushMethodName, BindingFlags.InvokeMethod, Type.DefaultBinder,
                     ComObject, new[] {(object) true});
 

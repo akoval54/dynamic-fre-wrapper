@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="EXC_COM" xml:space="preserve">
+    <value>Exception occured on COM type '{0}' when calling '{1}'.</value>
+  </data>
   <data name="EXC_COM_SERVER_REG" xml:space="preserve">
     <value>Cannot create '{0}' instance. Please make sure that '{1}' is registed. Use command: regsvr32 /n /i:"&lt;path to FREngine.tlb folder&gt;" "&lt;path to {1} file&gt;" to register.</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="EXC_FRE_DLL_FUNC_SEARCH" xml:space="preserve">
     <value>Cannot find '{0}' function in '{1}' using Kernel32.dll GetProcAddress() function.</value>
+  </data>
+  <data name="EXC_FRE_DLL_NOT_REG" xml:space="preserve">
+    <value>Please make sure that '{0}' is registed. Use command: regsvr32 /n /i:"&lt;path to FREngine.tlb folder&gt;" "&lt;path to {0} file&gt;" to register.</value>
   </data>
   <data name="EXC_FRE_DLL_WRONG_PATH" xml:space="preserve">
     <value>Path to '{0}' expected but not to '{1}'. You should specify the path when loading method '{2}' is set.</value>

@@ -15,9 +15,13 @@ namespace FrEngineLoader
         public static readonly IEnumerable<string> SupportedImageExtensions =
             new[]
             {
-                ".bmp", ".dcx", ".djvu", ".djv", ".gif", ".jpg", ".jpeg", ".jfif", ".jp2", ".jpc", ".j2k", ".pcx", ".pdf",
+                ".bmp", ".dcx", ".djvu", ".djv", ".gif", ".jpg", ".jpeg", ".jfif", ".jp2", ".jpc", ".j2k", ".pcx",
+                ".pdf",
                 ".png", ".tif", ".tiff", ".jb2", ".wdp"
             };
+
+        // Dispose pattern implementation for a derived class.
+        private bool _disposed;
 
         /// <summary>
         ///     Initializes a new instance of wrapped ABBYY FineReader Engine 11 COM object using the specified loading
@@ -47,10 +51,13 @@ namespace FrEngineLoader
 
             ComObjectType = ComObject.GetType();
             NativeComObjectTypeName = Information.TypeName(ComObject);
-        }
 
-        // Dispose pattern implementation for a derived class.
-        private bool _disposed;
+            if (NativeComObjectTypeName == "_ComObject")
+            {
+                throw new ApplicationException(string.Format(Resources.EXC_FRE_DLL_NOT_REG,
+                    FrEngineUtils.FrEngineDllFileName));
+            }
+        }
 
         protected override void Dispose(bool disposing)
         {

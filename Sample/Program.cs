@@ -20,11 +20,10 @@ namespace Sample
                 var outputFolderPath = PrepareDirectory(ConfigurationManager.AppSettings["OutputFolderPath"] ?? "Output");
                 var logFileName = ConfigurationManager.AppSettings["LogFileName"] ?? "FREngine.log";
                 var settingsFileName = ConfigurationManager.AppSettings["SettingsFileName"] ?? string.Empty;
-                var executingAssemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty;
+                var executingAssemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ??
+                                                 string.Empty;
 
                 // Initialize wrapped ABBYY FineReader Engine 11 COM object.
-                // The "Native" loading method requires "FREngine.tlb" to be registered in the system using e.g. "regtlibv12.exe" tool and [STAThread] attribute set for Main() entry point.
-                // Other loading methods require "FREngine.dll" to be registered with the command: regsvr32 /n /i:"path to FREngine.tlb folder" "path to FREngine.dll file".
                 engine = new DynamicFrEngine(FrEngineLoadingMethod.OutOfProcessComServer);
 
                 // Enable FrEngine logging.
@@ -60,9 +59,12 @@ namespace Sample
             }
             catch (Exception e)
             {
-                // Show inner exception if exists.
-                var exceptionToShow = e.InnerException ?? e;
-                Console.WriteLine(exceptionToShow.Message);
+                Console.WriteLine(e.Message);
+
+                if (e.InnerException != null)
+                {
+                    Console.WriteLine(@"Inner exception message: {0}", e.InnerException.Message);
+                }
             }
             finally
             {
