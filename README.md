@@ -1,11 +1,11 @@
 # dynamic-fre-wrapper
 C# .NET 4.5 library that provides a dynamic IDisposable wrapper for ABBYY FineReader Engine 11 COM object and all its sub-objects. COM object types are determined at runtime so you do not need to reference the corresponding .NET Interop library in your project and recompile it when new maintenance release of ABBYY FineReader Engine 11 is available. Just replace old Engine distribution files, (re-)register FREngine.tlb together with FREngine.dll using the following command and your code works again:
 
-**regsvr32 /n /i:"path to FREngine.tlb *folder*" "path to FREngine.dll *file*"**
+**regsvr32 /n /i:"path to FREngine.tlb folder" "path to FREngine.dll file"**
 
 If you want to unregister these files, you can simply add /u option to the command:
 
-**regsvr32 */u* /n /i:"path to FREngine.tlb *folder*" "path to FREngine.dll *file*"**
+**regsvr32 /u /n /i:"path to FREngine.tlb folder" "path to FREngine.dll file"**
 
 The repository contains Visual Studio 2013 solution with a sample project illustrating the library usage.
 
