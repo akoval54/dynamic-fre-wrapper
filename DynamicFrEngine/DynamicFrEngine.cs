@@ -12,14 +12,6 @@ namespace FrEngineLoader
     /// </summary>
     public sealed partial class DynamicFrEngine : DynamicFrComObjectWrapper
     {
-        public static readonly IEnumerable<string> SupportedImageExtensions =
-            new[]
-            {
-                ".bmp", ".dcx", ".djvu", ".djv", ".gif", ".jpg", ".jpeg", ".jfif", ".jp2", ".jpc", ".j2k", ".pcx",
-                ".pdf",
-                ".png", ".tif", ".tiff", ".jb2", ".wdp"
-            };
-
         private bool _disposed;
 
         /// <summary>
@@ -27,7 +19,7 @@ namespace FrEngineLoader
         ///     method.
         /// </summary>
         public DynamicFrEngine(FrEngineLoadingMethod loadingMethod, string projectId = null, string password = null,
-            string frEngineDllPath = @"C:\Program Files\ABBYY SDK\11\FineReader Engine\Bin\FREngine.dll")
+            string frEngineDllPath = FrEngineUtils.FrEngineDllDefaultPath)
             : base(null)
         {
             _projectId = projectId;
@@ -51,11 +43,16 @@ namespace FrEngineLoader
             ComObjectType = ComObject.GetType();
             NativeComObjectTypeName = Information.TypeName(ComObject);
 
-            if (NativeComObjectTypeName == "_ComObject")
+            if (NativeComObjectTypeName == FrEngineUtils.DefaultComTypeNameFromVbInfo)
             {
                 throw new ApplicationException(string.Format(Resources.EXC_FRE_DLL_NOT_REG,
                     FrEngineUtils.FrEngineDllFileName));
             }
+        }
+
+        public static IEnumerable<string> SupportedImageExtensions
+        {
+            get { return FrEngineUtils.SupportedImageExtensions; }
         }
 
         // Dispose pattern implementation for a derived class.

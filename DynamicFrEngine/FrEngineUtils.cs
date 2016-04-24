@@ -13,10 +13,13 @@ namespace FrEngineLoader
 
         public const uint LoadWithAlteredSearchPath = 0x00000008;
         public const string FrEngineDllFileName = "FREngine.dll";
+        public const string FrEngineDllDefaultPath = @"C:\Program Files\ABBYY SDK\11\FineReader Engine\Bin\FREngine.dll";
         public const string FrEngineLoadingFunctionName = "GetEngineObjectEx";
         public const string FrEngineUnloadingFunctionName = "DeinitializeEngine";
         public const string InprocComServerProgId = "FREngine.InprocLoader.11";
         public const string OutprocComServerProgId = "FREngine.OutprocLoader.11";
+
+        public const string DefaultComTypeNameFromVbInfo = "_ComObject";
 
         public const string CloseMethodName = "Close";
         public const string FlushMethodName = "Flush";
@@ -27,6 +30,12 @@ namespace FrEngineLoader
         {"IDocumentInfo", "IFRDocument", "IExportFileWriter", "IFileWriter", "IReadStream"};
 
         public static readonly IEnumerable<string> FrEngineFlushableInterfaces = new[] {"IFRPage"};
+
+        public static readonly IEnumerable<string> SupportedImageExtensions = new[]
+        {
+            ".bmp", ".dcx", ".djvu", ".djv", ".gif", ".jpg", ".jpeg", ".jfif", ".jp2", ".jpc", ".j2k", ".pcx",
+            ".pdf", ".png", ".tif", ".tiff", ".jb2", ".wdp"
+        };
 
         [DllImport("kernel32.dll")]
         public static extern IntPtr LoadLibraryEx(string dllToLoad, IntPtr reserved, uint flags);
