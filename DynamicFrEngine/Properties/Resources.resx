@@ -144,6 +144,9 @@
   <data name="EXC_FRE_DLL_WRONG_PATH" xml:space="preserve">
     <value>Path to '{0}' expected but not to '{1}'. You should specify the path when loading method '{2}' is set.</value>
   </data>
+  <data name="EXC_GET_ENUMERATOR" xml:space="preserve">
+    <value>Cannot call '{0}' on '{1}' type. Probably the type '{1}' isn't a collection.</value>
+  </data>
   <data name="EXC_LOADING_METHOD" xml:space="preserve">
     <value>FREngine loading method '{0}' isn't supported.</value>
   </data>

@@ -21,6 +21,7 @@ namespace FrEngineLoader
         public const string CloseMethodName = "Close";
         public const string FlushMethodName = "Flush";
         public const string ElementPropertyName = "Element";
+        public const string CountPropertyName = "Count";
 
         public static readonly IEnumerable<string> FrEngineClosableInterfaces = new[]
         {"IDocumentInfo", "IFRDocument", "IExportFileWriter", "IFileWriter", "IReadStream"};
@@ -43,7 +44,7 @@ namespace FrEngineLoader
                     FrEngineLoadingMethod.Native));
 
             if (!string.Equals(FrEngineDllFileName, Path.GetFileName(frEngineDllPath),
-                    StringComparison.OrdinalIgnoreCase))
+                StringComparison.OrdinalIgnoreCase))
                 throw new ApplicationException(string.Format(Resources.EXC_FRE_DLL_WRONG_PATH, FrEngineDllFileName,
                     frEngineDllPath, FrEngineLoadingMethod.Native));
 

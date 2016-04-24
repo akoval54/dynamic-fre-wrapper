@@ -20,7 +20,6 @@ namespace FrEngineLoader
                 ".png", ".tif", ".tiff", ".jb2", ".wdp"
             };
 
-        // Dispose pattern implementation for a derived class.
         private bool _disposed;
 
         /// <summary>
@@ -59,6 +58,7 @@ namespace FrEngineLoader
             }
         }
 
+        // Dispose pattern implementation for a derived class.
         protected override void Dispose(bool disposing)
         {
             if (!_disposed)

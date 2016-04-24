@@ -34,9 +34,9 @@ namespace Sample
 
                 // Fetch all supported image files from Input folder.
                 var imageFiles = (from imageFile in Directory.EnumerateFiles(inputFolderPath)
-                                  where DynamicFrEngine.SupportedImageExtensions.Any(
-                                    extension => imageFile.ToLower().EndsWith(extension))
-                                  select imageFile).ToArray();
+                    where DynamicFrEngine.SupportedImageExtensions.Any(
+                        extension => imageFile.ToLower().EndsWith(extension))
+                    select imageFile).ToArray();
 
                 // Finish if no images in Input folder.
                 if (imageFiles.Length == 0)
@@ -45,7 +45,7 @@ namespace Sample
                     return;
                 }
 
-                using (dynamic frDocument = engine.CreateFRDocument())
+                using (var frDocument = engine.CreateFRDocument())
                 {
                     foreach (var imageFile in imageFiles)
                     {
@@ -59,11 +59,12 @@ namespace Sample
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-
-                if (e.InnerException != null)
+                var exceptionLevel = 0;
+                while (e != null)
                 {
-                    Console.WriteLine(@"Inner exception message: {0}", e.InnerException.Message);
+                    Console.WriteLine(@"Exception message {0}: {1}", exceptionLevel, e.Message);
+                    e = e.InnerException;
+                    exceptionLevel++;
                 }
             }
             finally

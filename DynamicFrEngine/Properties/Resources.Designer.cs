@@ -142,6 +142,15 @@ namespace FrEngineLoader.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot call &apos;{0}&apos; on &apos;{1}&apos; type. Probably the type &apos;{1}&apos; isn&apos;t a collection..
+        /// </summary>
+        internal static string EXC_GET_ENUMERATOR {
+            get {
+                return ResourceManager.GetString("EXC_GET_ENUMERATOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FREngine loading method &apos;{0}&apos; isn&apos;t supported..
         /// </summary>
         internal static string EXC_LOADING_METHOD {

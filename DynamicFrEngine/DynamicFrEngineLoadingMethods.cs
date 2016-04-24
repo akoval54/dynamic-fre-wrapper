@@ -39,8 +39,8 @@ namespace FrEngineLoader
             if (getEngineObjectHandle == IntPtr.Zero)
                 throw new ApplicationException(string.Format(Resources.EXC_FRE_DLL_FUNC_SEARCH,
                     FrEngineUtils.FrEngineLoadingFunctionName, frEngineDllPath));
-            var getEngineObjectEx =(GetEngineObjectEx)Marshal.GetDelegateForFunctionPointer(getEngineObjectHandle,
-                    typeof(GetEngineObjectEx));
+            var getEngineObjectEx = (GetEngineObjectEx) Marshal.GetDelegateForFunctionPointer(getEngineObjectHandle,
+                typeof(GetEngineObjectEx));
             Marshal.ThrowExceptionForHR(getEngineObjectEx(_projectId, null, null, true, null, _password, ref engine));
 
             return engine;
@@ -49,7 +49,8 @@ namespace FrEngineLoader
         private object LoadFrEngineAsComServer(string progId)
         {
             var engineLoaderType = Type.GetTypeFromProgID(progId);
-            if (engineLoaderType == null) throw new ApplicationException(string.Format(Resources.EXC_COM_SERVER_REG, progId,
+            if (engineLoaderType == null)
+                throw new ApplicationException(string.Format(Resources.EXC_COM_SERVER_REG, progId,
                     FrEngineUtils.FrEngineDllFileName));
 
             _engineLoader = Activator.CreateInstance(engineLoaderType);
