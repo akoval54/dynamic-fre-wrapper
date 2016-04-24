@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using FrEngineLoader.Properties;
 using Microsoft.VisualBasic;
 
 namespace FrEngineLoader
 {
-    public partial class DynamicFrComObjectWrapper : DynamicObject, IDisposable
+    public partial class DynamicFrComObjectWrapper : DynamicObject, IDisposable, IEnumerable
     {
         private static readonly UnknownWrapper NullObject = new UnknownWrapper(null);
         private bool _disposed;
-        protected object ComObject;
         protected Type ComObjectType;
         protected string NativeComObjectTypeName;
 
@@ -25,17 +26,38 @@ namespace FrEngineLoader
             }
         }
 
-        // Provide original COM object for debugging purposes.
-        public object WrappedObject
-        {
-            get { return ComObject; }
-        }
+        public object ComObject { get; protected set; }
 
-        // Dispose pattern implementation for a base class.
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        // IEnumerable implementation for FrEngine collections.
+        public IEnumerator GetEnumerator()
+        {
+            int collectionItemsCount;
+            try
+            {
+                collectionItemsCount =
+                    (int) ComObjectType.InvokeMember(FrEngineUtils.CountPropertyName, BindingFlags.GetProperty,
+                        Type.DefaultBinder, ComObject, null);
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(
+                    string.Format(Resources.EXC_GET_ENUMERATOR, FrEngineUtils.CountPropertyName,
+                        NativeComObjectTypeName), e);
+            }
+
+            for (var collectionIndex = 0; collectionIndex < collectionItemsCount; collectionIndex++)
+            {
+                var result = ComObjectType.InvokeMember(FrEngineUtils.ElementPropertyName, BindingFlags.GetProperty,
+                    Type.DefaultBinder, ComObject, new[] {(object) collectionIndex});
+                WrapInvokeResult(ref result);
+                yield return result;
+            }
         }
 
         ~DynamicFrComObjectWrapper()

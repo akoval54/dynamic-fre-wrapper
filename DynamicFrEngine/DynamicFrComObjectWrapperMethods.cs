@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Dynamic;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using FrEngineLoader.Properties;
 
 namespace FrEngineLoader
@@ -16,7 +15,7 @@ namespace FrEngineLoader
                 result = ComObjectType.InvokeMember(binder.Name, BindingFlags.GetProperty, Type.DefaultBinder, ComObject,
                     null);
             }
-            catch (COMException e)
+            catch (Exception e)
             {
                 throw new ApplicationException(string.Format(Resources.EXC_COM, NativeComObjectTypeName, binder.Name), e);
             }
@@ -32,7 +31,7 @@ namespace FrEngineLoader
                 result = ComObjectType.InvokeMember(FrEngineUtils.ElementPropertyName, BindingFlags.GetProperty,
                     Type.DefaultBinder, ComObject, indexes);
             }
-            catch (COMException e)
+            catch (Exception e)
             {
                 throw new ApplicationException(
                     string.Format(Resources.EXC_COM, NativeComObjectTypeName, FrEngineUtils.ElementPropertyName), e);
@@ -50,7 +49,7 @@ namespace FrEngineLoader
                 ComObjectType.InvokeMember(binder.Name, BindingFlags.SetProperty, Type.DefaultBinder, ComObject,
                     new[] {value});
             }
-            catch (COMException e)
+            catch (Exception e)
             {
                 throw new ApplicationException(string.Format(Resources.EXC_COM, NativeComObjectTypeName, binder.Name), e);
             }
@@ -66,7 +65,7 @@ namespace FrEngineLoader
                 ComObjectType.InvokeMember(FrEngineUtils.ElementPropertyName, BindingFlags.SetProperty,
                     Type.DefaultBinder, ComObject, new[] {indexes[0], value});
             }
-            catch (COMException e)
+            catch (Exception e)
             {
                 throw new ApplicationException(
                     string.Format(Resources.EXC_COM, NativeComObjectTypeName, FrEngineUtils.ElementPropertyName), e);
@@ -77,13 +76,13 @@ namespace FrEngineLoader
         // Serves for statements like "myComObject.Do(arg1, arg2, null);";
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
-            WrapNullArgs(args);
+            PrepareArgs(args);
             try
             {
                 result = ComObjectType.InvokeMember(binder.Name, BindingFlags.InvokeMethod, Type.DefaultBinder,
                     ComObject, args);
             }
-            catch (COMException e)
+            catch (Exception e)
             {
                 throw new ApplicationException(string.Format(Resources.EXC_COM, NativeComObjectTypeName, binder.Name), e);
             }
@@ -98,18 +97,18 @@ namespace FrEngineLoader
                 result = new DynamicFrComObjectWrapper(result);
         }
 
-        // Replace null objects in args with UnknownWrapper objects.
+        // Unwrap args, replace null objects in args with UnknownWrapper objects.
         // Required for interaction with FrEngine COM methods.
-        public static void WrapNullArgs(object[] args)
+        public static void PrepareArgs(object[] args)
         {
             for (var i = 0; i < args.Length; i++)
-                args[i] = args[i] ?? NullObject;
+                args[i] = UnwrapValue(args[i]) ?? NullObject;
         }
 
         // Try to unwrap "value" if it's of type DynamicFreComObjectWrapper.
-        private object UnwrapValue(object value)
+        private static object UnwrapValue(object value)
         {
-            return value is DynamicFrComObjectWrapper ? ComObject : value;
+            return value is DynamicFrComObjectWrapper ? ((DynamicFrComObjectWrapper) value).ComObject : value;
         }
     }
 }
